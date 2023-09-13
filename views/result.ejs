@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/jquery-ui.min.css">
+</head>
+
+<body>
+    <div class="result-container style-container ">
+
+        <% for( let i=0; i < 3; i++ ) { %>
+            <div class="mySlides ">
+                <div class="row g-0">
+                    <!-- Card -->
+                    <div class="card col-4 ">
+                        <div class="row g-0">
+                            <div class="col-lg-6">
+                                <img src=<%=data.image[i] %> class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= data.name[i] %>
+                                    </h5>
+                                    <p class="card-text">episode: <%= data.episode[i] %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Video -->
+                    <video class="col-8" autoplay loop muted>
+                        <source src=<%=data.video[i] %> type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            <% } %>
+
+
+
+                <!-- Next and previous buttons -->
+                <a class="prev" onclick="plusSlides(-1)"><i class='bx bx-chevron-left'></i></a>
+                <a class="next" onclick="plusSlides(1)"><i class='bx bx-chevron-right'></i></a>
+                <!-- Mute Button -->
+                <a class="mute" onclick="muteSound()"><i class='bx bxs-volume-mute'></i><i
+                        class='bx bxs-volume-full'></i></a>
+    </div>
+
+
+    <script src="https://unpkg.com/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <script>
+        $('.card').show('slide', { direction: 'right' }, 1000);
+        let slideIndex = 1;
+        let slides, video, volume;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function toggleDisplayStyle(element) {
+            if (element.style.display === "none") {
+                element.style.display = "block";
+            } else {
+                element.style.display = "none";
+            }
+        }
+
+        function showSlides(n) {
+            let i;
+            slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+                video = slides[i].getElementsByTagName("video")[0];
+                video.muted = true;
+                volume = slides[i].parentNode.querySelector("a.mute");
+                volume.childNodes[0].style.display = "block";
+                volume.childNodes[1].style.display = "none";
+            }
+            slides[slideIndex - 1].style.display = "block";
+        }
+
+        function muteSound() {
+            slides = document.getElementsByClassName("mySlides");
+            volume = slides[slideIndex - 1].parentNode.querySelector("a.mute");
+            video = slides[slideIndex - 1].getElementsByTagName("video")[0];
+            video.muted = !video.muted;
+            toggleDisplayStyle(volume.childNodes[0]);
+            toggleDisplayStyle(volume.childNodes[1]);
+        }
+    </script>
+</body>
+
+</html>

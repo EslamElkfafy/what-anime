@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="home-container style-container">
+        <h1>Upload Your Image.</h1>
+        <form name="pickfile" action="/upload" method="POST" enctype="multipart/form-data">
+            <input class="form-control" type="file" id="formFile" name="image" />
+            <img id="img" />
+            <input class="btn btn-primary" value="Search" type="submit" />
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        var reader1 = new FileReader();
+
+        reader1.addEventListener('load', e => {
+        document.querySelector('#img').src = e.target.result;
+        $("#img").show(300);
+        document.querySelector("input[type=submit]").style.display = "block";
+        });
+
+        document.addEventListener('DOMContentLoaded', e => {
+        document.forms.pickfile.image.addEventListener('change', e => {
+            reader1.readAsDataURL(e.target.files[0]);
+        });
+        });
+    </script>
+</body>
+</html>
